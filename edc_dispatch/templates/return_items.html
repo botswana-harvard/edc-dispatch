@@ -1,0 +1,38 @@
+{% extends "section.html"%}
+
+{% block breadcrumbs %}
+
+    <div class="breadcrumbs">
+        <a href="/{{ home }}">Home</a>
+        &rsaquo; <a href="/bhp_sync/">Checkin with Community Server</A>
+        &rsaquo; Producer {{ producer|capfirst }}        
+    </div>
+    
+{% endblock %}
+
+
+{% block before_messages %}
+
+<table>
+<tr><TD><H4>Return from Device </H4></TD></TR>
+<tr><td>Updating checkouts device "{{ producer }}"</td></tr>
+<tr><td>Device URL: <A href="/{{ CHECKOUT_APP }}/checkin/{{ producer.name }}/">/{{ CHECKOUT_APP }}/checkin/{{ producer.name }}/</A></td></tr> 
+<tr><td>(go to <A href="/admin/{{ CHECKOUT_APP }}/">Checkin models</A>)
+<tr><td>The messages below appear in the order they were processed by the Community Server</td></tr>
+</table>
+{% endblock before_messages %}
+
+
+{% if messages %}
+    <table>
+        {% for message in messages %}
+            <tr><td>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</td></tr>
+        {% endfor %}
+    </table>
+{% endif %}
+
+{{ error_response }}
+
+
+{% block section_buttons %}{% endblock section_buttons %}
+{% block section_title %}{% endblock section_title %}

@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Models &mdash; bhp_dispatch 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="bhp_dispatch 1.0 documentation" href="index.html" />
+    <link rel="next" title="Classes" href="classes.html" />
+    <link rel="prev" title="Dispatching" href="dispatching.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dispatching.html" title="Dispatching"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">bhp_dispatch 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-bhp_dispatch.models">
+<span id="models"></span><h1>Models<a class="headerlink" href="#module-bhp_dispatch.models" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="bhp_dispatch.models.Dispatch">
+<em class="property">class </em><tt class="descclassname">bhp_dispatch.models.</tt><tt class="descname">Dispatch</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#bhp_dispatch.models.Dispatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">bhp_dispatch.models.base_dispatch.BaseDispatch</span></tt></p>
+<p>Dispatch(created, modified, user_created, user_modified, hostname_created, hostname_modified, id, producer_id, is_dispatched, dispatch_datetime, return_datetime, dispatch_items)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name :</th><td class="field-body"><p class="first">dispatch</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Table :</th><td class="field-body"><p class="first">bhp_dispatch_dispatch</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>producer_id</strong> (<em>ForeignKey</em>) &#8211; Producer / netbook</li>
+<li><strong>is_dispatched</strong> (<em>BooleanField</em>) &#8211; Is dispatched</li>
+<li><strong>dispatch_datetime</strong> (<em>DateTimeField</em>) &#8211; Dispatch date</li>
+<li><strong>return_datetime</strong> (<em>DateTimeField</em>) &#8211; Return date</li>
+<li><strong>dispatch_items</strong> (<em>TextField</em>) &#8211; Dispatch items. One per line.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="bhp_dispatch.models.DispatchItem">
+<em class="property">class </em><tt class="descclassname">bhp_dispatch.models.</tt><tt class="descname">DispatchItem</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#bhp_dispatch.models.DispatchItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">bhp_dispatch.models.base_dispatch.BaseDispatch</span></tt></p>
+<p>DispatchItem(created, modified, user_created, user_modified, hostname_created, hostname_modified, id, producer_id, is_dispatched, dispatch_datetime, return_datetime, dispatch_id, item_identifier, subject_identifiers)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name :</th><td class="field-body"><p class="first">dispatch item</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Table :</th><td class="field-body"><p class="first">bhp_dispatch_dispatchitem</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>producer_id</strong> (<em>ForeignKey</em>) &#8211; Producer / netbook</li>
+<li><strong>is_dispatched</strong> (<em>BooleanField</em>) &#8211; Is dispatched</li>
+<li><strong>dispatch_datetime</strong> (<em>DateTimeField</em>) &#8211; Dispatch date</li>
+<li><strong>return_datetime</strong> (<em>DateTimeField</em>) &#8211; Return date</li>
+<li><strong>dispatch_id</strong> (<em>ForeignKey</em>) &#8211; Dispatch</li>
+<li><strong>item_identifier</strong> (<em>CharField</em>) &#8211; Dispatch Item (e.g. Household Identifier)</li>
+<li><strong>subject_identifiers</strong> (<em>TextField</em>) &#8211; Subject identifiers associated with this Dispatch Item</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="bhp_dispatch.models.BaseDispatch">
+<em class="property">class </em><tt class="descclassname">bhp_dispatch.models.</tt><tt class="descname">BaseDispatch</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#bhp_dispatch.models.BaseDispatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">bhp_base_model.models.base_uuid_model.BaseUuidModel</span></tt></p>
+<p>A base model for dispatching models to a mobile device</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>producer_id</strong> (<em>ForeignKey</em>) &#8211; Producer / netbook</li>
+<li><strong>is_dispatched</strong> (<em>BooleanField</em>) &#8211; Is dispatched</li>
+<li><strong>dispatch_datetime</strong> (<em>DateTimeField</em>) &#8211; Dispatch date</li>
+<li><strong>return_datetime</strong> (<em>DateTimeField</em>) &#8211; Return date</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="bhp_dispatch.models.PrepareHistory">
+<em class="property">class </em><tt class="descclassname">bhp_dispatch.models.</tt><tt class="descname">PrepareHistory</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#bhp_dispatch.models.PrepareHistory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">bhp_base_model.models.base_uuid_model.BaseUuidModel</span></tt></p>
+<p>Tracks the history of running <tt class="xref py py-func docutils literal"><span class="pre">prepare_device()</span></tt> for producer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Name :</th><td class="field-body"><p class="first">prepare history</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Table :</th><td class="field-body"><p class="first">bhp_dispatch_preparehistory</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>source</strong> (<em>CharField</em>) &#8211; Source</li>
+<li><strong>destination</strong> (<em>CharField</em>) &#8211; Destination</li>
+<li><strong>producer_id</strong> (<em>ForeignKey</em>) &#8211; Producer</li>
+<li><strong>prepare_datetime</strong> (<em>DateTimeField</em>) &#8211; Prepare datetime</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dispatching.html"
+                        title="previous chapter">Dispatching</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="classes.html"
+                        title="next chapter">Classes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/models.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="classes.html" title="Classes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dispatching.html" title="Dispatching"
+             >previous</a> |</li>
+        <li><a href="index.html">bhp_dispatch 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, erik van widenfelt.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+{% extends "section.html"%}
+{% load dispatch_tags %}
+{% load admin_urls %}
+{% load url from future %}
+{% load common_tags %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs"><a href="{% url "section_index_url"  %}">Home</a> 
+&rsaquo; <a href="{% url "section_url" 'administration' %}">Administration</a>
+&rsaquo; Dispatch Data to Producer</div>
+{% endblock %}
+
+{% block content %}
+
+<h3>Dispatch Data to Producer</h3>
+<p><A href="{% url producer_cls|get_meta|admin_urlname:'changelist' %}">Producers</A> | <A href="{% url 'sync_index_url' %}">Synchronize Devices with Server</A></p>
+
+<H4>Items selected for dispatch {% if notebook_plot_list == 'allocated' %} <span style="font-style: italic;"> >>notebook plot list model.</span> {% else %} <span>.</span> {%endif%}</H4>
+
+<table>
+<tr><TD colspan=2>Dispatch by <A href="{{ user_container_admin_url }}">{{ user_container_model_name }}</A></TD></td></TR>
+    {% for qs in queryset %}
+        <tr>
+          <TD>{% if notebook_plot_list == 'allocated' %}<span style="background:black; margin-right:2px;">|</span>{%endif%}<A href="{{ dispatch_url }}{{ qs }}/">{{ qs }}</A></TD>
+          <td>{% if qs|is_dispatched_item %}<A href="{% url dispatchitemregister_cls|get_meta|admin_urlname:'changelist' %}?q={{ qs }}">already dispatched</A><font color="red">*</font>{% else %}ready to dispatch{% endif %}</td>
+        </TR>
+    {% endfor %}
+</table>
+
+<form action="/dispatch/bcpp/" method="post">
+    {{ form.non_field_errors }}
+    <div class="fieldWrapper">
+        {{ form.producer.errors }}
+        <label for="id_producer">Producer:</label> {{ form.producer }}
+        {{ form.survey.errors }}
+        <label for="id_survey">Survey:</label> {{ form.survey }}
+        <input type="submit" value="Dispatch" />
+        <input type="hidden" name="ct" id="ct"  value="{{ ct }}">
+        <input type="hidden" name="ct1" id="ct1"  value="{{ ct1 }}">
+        <input type="hidden" name="plot_list" id="plot_list"  value="{{ notebook_plot_list }}">
+        <input type="hidden" name="items" id="items" value="{{ items }}">
+        {% csrf_token %}
+    </div>
+    
+</form>
+
+{% if has_outgoing_transactions %}
+
+    <P><font color='red'>Producer "{{ producer }}" has outgoing transactions.</P>
+    <P>Return the data from the netbook to the server and try again.</font></P>
+    
+    
+    Go to: <A href="/bhp_sync/">Return data from netbooks to Community Server</A>
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block section_buttons %}{% endblock section_buttons %}
+{% block section_title %}{% endblock section_title %}

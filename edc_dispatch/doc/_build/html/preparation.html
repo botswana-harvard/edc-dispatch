@@ -1,0 +1,223 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Preparation &mdash; bhp_dispatch 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="bhp_dispatch 1.0 documentation" href="index.html" />
+    <link rel="next" title="Dispatching" href="dispatching.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dispatching.html" title="Dispatching"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">bhp_dispatch 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="preparation">
+<h1>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h1>
+<p>For a device to be ready to receive &#8220;dispatched&#8221; data, run <tt class="xref py py-func docutils literal"><span class="pre">prepare_netbook()</span></tt>.
+Before running <tt class="xref py py-func docutils literal"><span class="pre">prepare_netbook()</span></tt>, setup the device database and confirm the settings.DATABASE options
+are correct.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">These steps only need to be run once.</p>
+</div>
+<div class="section" id="setup-database">
+<h2>Setup database<a class="headerlink" href="#setup-database" title="Permalink to this headline">¶</a></h2>
+<p>The database on the device is set up in the same way as any django project except the superuser
+account should NOT be created. The superuser account information will be dispatched from the server
+when <tt class="xref py py-func docutils literal"><span class="pre">prepare_netbook()</span></tt> is run.</p>
+<ol class="arabic">
+<li><p class="first">Using <tt class="docutils literal"><span class="pre">mysql</span></tt> on the device, create a new database.</p>
+<blockquote>
+<div><p>If DB does not exist on device:</p>
+<div class="highlight-python"><pre>mysql -u root -p -Bse 'create database bhp041_survey;'</pre>
+</div>
+<p>If DB already exists on device <cite>(be careful!)</cite>:</p>
+<div class="highlight-python"><pre>mysql -u root -p -Bse 'drop database bhp041_survey; create database bhp041_survey;'</pre>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Comment out &#8216;south&#8217; in INSTALLED_APPS.</p>
+</li>
+<li><p class="first">Run django&#8217;s <tt class="docutils literal"><span class="pre">syncdb</span></tt>:</p>
+<div class="highlight-python"><pre>python manage.py syncdb --noinput</pre>
+</div>
+</li>
+</ol>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Use parameter &#8216;&#8211;noinput&#8217; so syncdb does not prompt to create a superuser account.</p>
+</div>
+</div></blockquote>
+<ol class="arabic" start="4">
+<li><p class="first">Uncomment &#8216;south&#8217; in INSTALLED_APPS.</p>
+</li>
+<li><p class="first">Re-run <tt class="docutils literal"><span class="pre">syncdb</span></tt> to create the south migration history table:</p>
+<div class="highlight-python"><pre>python manage.py syncdb</pre>
+</div>
+</li>
+<li><p class="first">Fake migrations:</p>
+<div class="highlight-python"><pre>python manage.py migrate --fake</pre>
+</div>
+</li>
+</ol>
+<p>The database on the device is now ready for <tt class="xref py py-func docutils literal"><span class="pre">prepare_netbook()</span></tt>.</p>
+</div>
+<div class="section" id="confirm-options-in-settings-database">
+<h2>Confirm options in settings.DATABASE<a class="headerlink" href="#confirm-options-in-settings-database" title="Permalink to this headline">¶</a></h2>
+<p>Before running <tt class="xref py py-func docutils literal"><span class="pre">prepare_netbook()</span></tt>, confirm the settings.DATABASE options are correct.</p>
+<dl class="docutils">
+<dt>On the device</dt>
+<dd><ul class="first last simple">
+<li>server options name: <cite>server</cite> (confirm the IP Address)</li>
+<li>device options name: <cite>default</cite></li>
+</ul>
+</dd>
+<dt>On the server:</dt>
+<dd><ul class="first last simple">
+<li>server options name: <cite>default</cite></li>
+<li>device options name: anything but usually &lt;hostname&gt; or &lt;hostname-DB&gt; (e.g. <cite>mpp83</cite> or <cite>mpp83-bhp041_survey</cite>)</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In all cases the server is the <cite>source</cite>. <tt class="xref py py-mod docutils literal"><span class="pre">bhp_dispatch</span></tt> does not move data from device to server.
+To move data from device to server see <tt class="xref py py-mod docutils literal"><span class="pre">bhp_sync</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="run-prepare-device-management-command">
+<h2>Run prepare_device Management Command<a class="headerlink" href="#run-prepare-device-management-command" title="Permalink to this headline">¶</a></h2>
+<p><tt class="xref py py-func docutils literal"><span class="pre">prepare_device()</span></tt> may be run from the device or the server. The options of the DATABASE attribute are those defined
+in the <tt class="file docutils literal"><span class="pre">settings.py</span></tt> of the project folder from where the command is run:</p>
+<div class="highlight-python"><pre>python manage.py prepare_device &lt;source&gt; &lt;destination&gt;</pre>
+</div>
+<p>where <cite>source</cite> and <cite>destination</cite> must be valid option names in the DATABASE attribute of settings.py.</p>
+<p>If on the device:</p>
+<div class="highlight-python"><pre>python manage.py prepare_device server default</pre>
+</div>
+<p>If on the server:</p>
+<div class="highlight-python"><pre>python manage.py prepare_device default mpp83</pre>
+</div>
+<p>where <cite>mpp83</cite> is the name of settings.DATABASE options for the device.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The management command might not be called <cite>prepare_device</cite> depending on the implementation.
+The command uses an instance of class <tt class="xref py py-class docutils literal"><span class="pre">PrepareDevice</span></tt>. This may be wrapped in a
+management command of a different name, for example, <cite>prepare_netbook</cite>. Type <tt class="docutils literal"><span class="pre">manage.py</span> <span class="pre">--help</span></tt>
+to see a full list of management commands.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Preparation</a><ul>
+<li><a class="reference internal" href="#setup-database">Setup database</a></li>
+<li><a class="reference internal" href="#confirm-options-in-settings-database">Confirm options in settings.DATABASE</a></li>
+<li><a class="reference internal" href="#run-prepare-device-management-command">Run prepare_device Management Command</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dispatching.html"
+                        title="next chapter">Dispatching</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/preparation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dispatching.html" title="Dispatching"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             >previous</a> |</li>
+        <li><a href="index.html">bhp_dispatch 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, erik van widenfelt.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
